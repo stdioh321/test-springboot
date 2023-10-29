@@ -3,43 +3,55 @@ package com.example.demo.controller;
 import com.example.demo.dto.TicketCreateForm;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.exceptions.ValidationException;
+import com.example.demo.service.api.TicketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 public class TicketController {
-    @GetMapping("/tickets")
-    public ResponseEntity<Map> get() throws JsonProcessingException {
-        String json = "{\"a\":1,\"b\":2}";
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(json, Map.class);
+    @Autowired
+    private TicketService ticketService;
 
-        return ResponseEntity.ok(map);
+    @DeleteMapping("/tickets/{id}")
+    public ResponseEntity<?> deleteById(
+            @PathVariable("id") String id
+    ) {
+        boolean result = ticketService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/tickets/{id}")
+    public ResponseEntity<?> patch(
+            @PathVariable("id") String id,
+            @Valid @RequestBody TicketCreateForm ticketPutForm,
+            BindingResult bindingResult
+    ) throws JsonProcessingException {
+        handleValidationErrors(bindingResult);
+        TicketDto ticketDto = ticketService.put(id, ticketPutForm);
+        return ResponseEntity.ok(ticketDto);
+    }
+
+    @GetMapping("/tickets")
+    public ResponseEntity<List<TicketDto>> get() throws JsonProcessingException {
+        List<TicketDto> tickets = ticketService.get();
+        return ResponseEntity.ok(tickets);
     }
 
     @PostMapping("/tickets")
-    public ResponseEntity<TicketDto> createTicket(
+    public ResponseEntity<TicketDto> post(
             @Valid @RequestBody TicketCreateForm ticketCreateForm,
             BindingResult bindingResult
-    ) {
+    ) throws JsonProcessingException {
         handleValidationErrors(bindingResult);
-
-        TicketDto ticketDto = TicketDto.builder()
-                .id(UUID.randomUUID().toString())
-                .name(ticketCreateForm.getName())
-                .number(ticketCreateForm.getNumber()).build();
-        return ResponseEntity.ok(ticketDto);
+        TicketDto ticket = ticketService.post(ticketCreateForm);
+        ResponseEntity responseEntity = ResponseEntity.status(201).body(ticket);
+        return responseEntity;
     }
 
     private void handleValidationErrors(String message, BindingResult bindingResult) {
