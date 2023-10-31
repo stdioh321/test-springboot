@@ -1,6 +1,7 @@
 package com.example.securitytest.dtos.ticket;
 
 
+import com.example.securitytest.models.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,10 @@ public class TicketCreateForm {
     @NotNull
     @Size(min = 2)
     private String field02;
+
+    public TicketCreateForm(Ticket ticket) {
+        this.setName(ticket.getName());
+        this.setField01(ticket.getField01());
+        this.setField02(ticket.getField02());
+    }
 }

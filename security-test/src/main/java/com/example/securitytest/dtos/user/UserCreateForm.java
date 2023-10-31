@@ -35,4 +35,10 @@ public class UserCreateForm {
     @Email
     private String email;
 
+    public UserCreateForm(User user) {
+        this.setName(user.getName());
+        this.setUsername(user.getUsername());
+        this.setEmail(user.getEmail());
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.securitytest.services;
 import com.example.securitytest.dtos.user.UserCreateForm;
 import com.example.securitytest.dtos.user.UserDto;
 import com.example.securitytest.dtos.user.UserPatchForm;
+import com.example.securitytest.enums.UserRole;
 import com.example.securitytest.exceptions.NotFoundException;
 import com.example.securitytest.models.User;
 import com.example.securitytest.repositories.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +47,7 @@ public class UserService {
                 .username(dto.getUsername())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
+                .role(UserRole.USER)
                 .build();
     }
 
@@ -80,7 +83,11 @@ public class UserService {
         return this.userRepository.save(currentUser);
     }
 
-    public User getUserByUsername(String username) {
+    public UserDetails getUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    public User post(User user) {
+        return this.userRepository.save(user);
     }
 }
