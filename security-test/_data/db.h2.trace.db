@@ -1,0 +1,33 @@
+2023-10-31 08:54:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a    create table [*]User (\000a       id bigint not null,\000a        created_at timestamp not null,\000a        email varchar(255) not null,\000a        name varchar(255) not null,\000a        password varchar(255) not null,\000a        updated_at timestamp not null,\000a        username varchar(255) not null,\000a        primary key (id)\000a    )"; expected "identifier"; SQL statement:
+
+    create table User (
+       id bigint not null,
+        created_at timestamp not null,
+        email varchar(255) not null,
+        name varchar(255) not null,
+        password varchar(255) not null,
+        updated_at timestamp not null,
+        username varchar(255) not null,
+        primary key (id)
+    ) [42001-214]
+2023-10-31 08:54:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a    alter table [*]User \000a       drop constraint if exists UK_e6gkqunxajvyxl5uctpl2vl2p"; expected "identifier"; SQL statement:
+
+    alter table User 
+       drop constraint if exists UK_e6gkqunxajvyxl5uctpl2vl2p [42001-214]
+2023-10-31 08:54:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a    alter table [*]User \000a       add constraint UK_e6gkqunxajvyxl5uctpl2vl2p unique (email)"; expected "identifier"; SQL statement:
+
+    alter table User 
+       add constraint UK_e6gkqunxajvyxl5uctpl2vl2p unique (email) [42001-214]
+2023-10-31 08:54:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a    alter table [*]User \000a       drop constraint if exists UK_jreodf78a7pl5qidfh43axdfb"; expected "identifier"; SQL statement:
+
+    alter table User 
+       drop constraint if exists UK_jreodf78a7pl5qidfh43axdfb [42001-214]
+2023-10-31 08:54:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a    alter table [*]User \000a       add constraint UK_jreodf78a7pl5qidfh43axdfb unique (username)"; expected "identifier"; SQL statement:
+
+    alter table User 
+       add constraint UK_jreodf78a7pl5qidfh43axdfb unique (username) [42001-214]
